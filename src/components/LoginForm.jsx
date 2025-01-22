@@ -7,57 +7,53 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate();  // Get navigate function from useNavigate hook
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+        const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
 
-      // Check if the response is OK
-      if (!response.ok) {
-        // Throw error with status code for handling in catch block
-        const errorData = await response.json();
-        throw new Error(`${response.status}: ${errorData.detail || 'Error during login'}`);
-      }
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`${response.status}: ${errorData.detail || 'Error during login'}`);
+        }
 
-      // Parse the response JSON when login is successful
-      const data = await response.json();
+        const data = await response.json();
 
-      if (data.message === "Login successful") {
-        // Redirect to the Dashboard after successful login
-        navigate('/dashboard');
-      } else {
-        setError(data.detail || 'Login failed');
-      }
+        if (data.message === "Login successful") {
+           // Navigate to dashboard on successful login
+           navigate('/dashboard'); 
+        } else {
+            setError(data.detail || 'Login failed');
+        }
     } catch (err) {
-      // Handle different error scenarios based on the error message
-      if (err.message.includes('401')) {
-        setError('Invalid password');
-      } else if (err.message.includes('404')) {
-        setError('User not found or inactive admin account');
-      } else {
-        setError('An unexpected error occurred');
-      }
+        if (err.message.includes('401')) {
+            setError('Invalid password');
+        } else if (err.message.includes('404')) {
+            setError('User not found or inactive admin account');
+        } else {
+            setError('An unexpected error occurred');
+        }
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   return (
     <form onSubmit={handleSubmit}>
       {/* Loading Screen */}
       {loading && (
         <div id="loadingScreen" className="fixed inset-0 bg-white flex justify-center items-center z-50 opacity-100 transition-opacity duration-1000">
-          <div className="absolute inset-0 bg-white opacity-75"></div> {/* White background for the entire card */}
+          <div className="absolute inset-0 bg-white opacity-75"></div>
           <svg className="h-20 w-20 stroke-gray-500 animate-spin" viewBox="0 0 256 256">
             <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
             <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
