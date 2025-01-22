@@ -1,4 +1,3 @@
-// src/components/LoginForm.jsx
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa'; // Import the icons
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
@@ -6,13 +5,14 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for redire
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // For handling login errors
-  const navigate = useNavigate(); // Hook to navigate to dashboard
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Add loading state
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // API request to login
+    setLoading(true); // Set loading to true when submitting
+
     try {
       const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
         method: 'POST',
@@ -21,25 +21,23 @@ function LoginForm() {
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok && data.message === "Login successful") {
-        // Login successful, redirect to dashboard
         navigate('/dashboard');
       } else {
-        // Handle login failure (e.g., invalid credentials)
         setError(data.detail || 'Login failed');
       }
     } catch (err) {
       setError('Error during login');
+    } finally {
+      setLoading(false); // Set loading to false once request is completed
     }
   };
-  
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Email input with icon */}
       <div className="mb-4 relative">
         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
         <div className="mt-2 relative">
@@ -56,7 +54,6 @@ function LoginForm() {
         </div>
       </div>
 
-      {/* Password input with icon */}
       <div className="mb-6 relative">
         <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
         <div className="mt-2 relative">
@@ -73,15 +70,20 @@ function LoginForm() {
         </div>
       </div>
 
-      {/* Error message */}
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
-      <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-        Login
-      </button>
+      {/* Show loading spinner if loading is true */}
+      {loading ? (
+        <div className="flex justify-center items-center mb-4">
+          <div className="spinner-border animate-spin border-4 border-t-4 border-blue-500 rounded-full w-6 h-6"></div>
+        </div>
+      ) : (
+        <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          Login
+        </button>
+      )}
     </form>
   );
 }
 
 export default LoginForm;
-
