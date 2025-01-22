@@ -12,44 +12,41 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
-        const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        });
-
-        // Check if the response is OK
-        if (!response.ok) {
-            // Throw error with status code for handling in catch block
-            const errorData = await response.json();
-            throw new Error(`${response.status}: ${errorData.detail || 'Error during login'}`);
-        }
-
-        // Parse the response JSON when login is successful
-        const data = await response.json();
-
-        if (data.message === "Login successful") {
-            navigate('/components/dashboard');
-        } else {
-            setError(data.detail || 'Login failed');
-        }
+      const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`${response.status}: ${errorData.detail || 'Error during login'}`);
+      }
+  
+      const data = await response.json();
+  
+      if (data.message === "Login successful") {
+        navigate('/dashboard'); // Correct path
+      } else {
+        setError(data.detail || 'Login failed');
+      }
     } catch (err) {
-        // Handle different error scenarios based on the error message
-        if (err.message.includes('401')) {
-            setError('Invalid password');
-        } else if (err.message.includes('404')) {
-            setError('User not found or inactive admin account');
-        } else {
-            setError('An unexpected error occurred');
-        }
+      if (err.message.includes('401')) {
+        setError('Invalid password');
+      } else if (err.message.includes('404')) {
+        setError('User not found or inactive admin account');
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
+  
 
   
 
