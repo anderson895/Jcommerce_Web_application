@@ -12,7 +12,7 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
         method: 'POST',
@@ -21,13 +21,20 @@ function LoginForm() {
         },
         body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok && data.message === "Login successful") {
         navigate('/dashboard');
       } else {
-        setError(data.detail || 'Login failed');
+        // Check for a specific status code (401)
+        if (response.status === 401) {
+          setError('Invalid password');
+        } else if(response.status === 404){
+          setError('User not found or inactive admin account');
+        }else{
+          setError(data.detail || 'Login failed');
+        }
       }
     } catch (err) {
       setError('Error during login');
@@ -35,6 +42,7 @@ function LoginForm() {
       setLoading(false);
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
