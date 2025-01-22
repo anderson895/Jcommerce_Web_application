@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaLock } from 'react-icons/fa'; // Import the icons
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import './css/loadingSpinner.css';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true when submitting
+    setLoading(true);
 
     try {
       const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
@@ -32,11 +33,12 @@ function LoginForm() {
     } catch (err) {
       setError('Error during login');
     } finally {
-      setLoading(false); // Set loading to false once request is completed
+      setLoading(false);
     }
   };
 
   return (
+    
     <form onSubmit={handleSubmit}>
       <div className="mb-4 relative">
         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
@@ -72,10 +74,9 @@ function LoginForm() {
 
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
-      {/* Show loading spinner if loading is true */}
       {loading ? (
         <div className="flex justify-center items-center mb-4">
-          <div className="spinner-border animate-spin border-4 border-t-4 border-blue-500 rounded-full w-6 h-6"></div>
+          <div className="loader"></div>
         </div>
       ) : (
         <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
