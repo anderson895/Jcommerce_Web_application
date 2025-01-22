@@ -1,36 +1,16 @@
 // src/components/Sidebar.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const sidebarRef = useRef(null);
 
-  // Toggle Sidebar visibility
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-
-  // Close Sidebar when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        setSidebarOpen(false); // Close sidebar if clicked outside
-      }
-    };
-
-    // Listen for clicks outside of the sidebar
-    document.addEventListener('click', handleClickOutside);
-
-    // Cleanup event listener when the component is unmounted
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
 
   return (
     <>
       {/* Sidebar */}
       <div
-        ref={sidebarRef}  // Attach the ref to the sidebar container
         className={`bg-gray-800 text-white w-64 space-y-6 p-5 fixed top-0 left-0 h-full transition-transform transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="flex items-center justify-between">
