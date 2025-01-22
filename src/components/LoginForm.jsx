@@ -37,8 +37,25 @@ function LoginForm() {
   };
 
   return (
-    
     <form onSubmit={handleSubmit}>
+      {/* Loading Screen */}
+      {loading && (
+        <div id="loadingScreen" className="fixed inset-0 bg-green-200 flex justify-center items-center z-50 opacity-100 transition-opacity duration-1000">
+          <svg className="h-20 w-20 stroke-gray-500 animate-spin" viewBox="0 0 256 256">
+            <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+          </svg>
+          <span className="text-4xl font-medium text-gray-500">Loading...</span>
+        </div>
+      )}
+
+      {/* Email and Password fields */}
       <div className="mb-4 relative">
         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
         <div className="mt-2 relative">
@@ -73,16 +90,11 @@ function LoginForm() {
 
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
-      {loading ? (
-          <div className="flex justify-center items-center mb-4">
-            <div className="w-8 h-8 border-4 border-t-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
-          </div>
-        ) : (
-          <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            Login
-          </button>
-        )}
-
+      {!loading && (
+        <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          Login
+        </button>
+      )}
     </form>
   );
 }
