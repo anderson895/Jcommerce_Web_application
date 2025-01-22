@@ -40,7 +40,7 @@ function LoginForm() {
     <form onSubmit={handleSubmit}>
       {/* Loading Screen */}
       {loading && (
-        <div id="loadingScreen" className="fixed inset-0 bg-white-200 flex justify-center items-center z-50 opacity-100 transition-opacity duration-1000">
+        <div id="loadingScreen" className="fixed inset-0 bg-green-200 flex justify-center items-center z-50 opacity-100 transition-opacity duration-1000">
           <svg className="h-20 w-20 stroke-gray-500 animate-spin" viewBox="0 0 256 256">
             <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
             <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
