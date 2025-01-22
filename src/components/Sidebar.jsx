@@ -1,11 +1,18 @@
-// src/components/Sidebar.jsx
 import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaSignOutAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate to handle navigation
 
 function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();  // Initialize the navigate function
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');  // Remove authentication state
+    navigate('/');  // Redirect to the login page
+  };
 
   return (
     <>
@@ -28,6 +35,15 @@ function Sidebar() {
           </li>
           <li>
             <a href="#" className="text-lg hover:text-blue-500">Settings</a>
+          </li>
+          {/* Logout Button */}
+          <li>
+            <button
+              onClick={handleLogout}
+              className="text-lg hover:text-red-500 flex items-center space-x-2"
+            >
+              <FaSignOutAlt /> <span>Logout</span>
+            </button>
           </li>
         </ul>
       </div>
