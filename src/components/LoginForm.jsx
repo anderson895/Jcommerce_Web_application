@@ -28,6 +28,7 @@ function LoginForm() {
         navigate('/dashboard');
       } else {
         // Check for a specific status code (401)
+        console.log(response.status)
         if (response.status === 401) {
           setError('Invalid password');
         } else if(response.status === 404){
