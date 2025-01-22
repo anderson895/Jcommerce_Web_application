@@ -1,8 +1,9 @@
+// src/components/LoginForm.jsx
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-function LoginForm() {
+function LoginForm({ handleLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -30,7 +31,8 @@ function LoginForm() {
         const data = await response.json();
 
         if (data.message === "Login successful") {
-           // Navigate to dashboard on successful login
+           // Persist authentication state
+           handleLogin();
            navigate('/dashboard'); 
         } else {
             setError(data.detail || 'Login failed');
