@@ -33,7 +33,7 @@ function LoginForm() {
         const data = await response.json();
 
         if (data.message === "Login successful") {
-            navigate('/components/dashboard');
+            navigate('/dashboard');
         } else {
             setError(data.detail || 'Login failed');
         }
