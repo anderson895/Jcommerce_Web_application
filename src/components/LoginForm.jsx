@@ -16,33 +16,35 @@ function LoginForm() {
     try {
       const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
   
-      const data = await response.json();
-  
-      if (response.ok && data.message === "Login successful") {
-        navigate('/dashboard');
-      } else {
-        // Check for a specific status code (401)
-        console.log(response.status)
+      if (!response.ok) {
+        const data = await response.json();
         if (response.status === 401) {
           setError('Invalid password');
-        } else if(response.status === 404){
+        } else if (response.status === 404) {
           setError('User not found or inactive admin account');
-        }else{
+        } else {
           setError(data.detail || 'Login failed');
         }
+        return; // Stop execution if response is not OK
+      }
+  
+      const data = await response.json();
+      if (data.message === "Login successful") {
+        navigate('/dashboard');
+      } else {
+        setError(data.detail || 'Login failed');
       }
     } catch (err) {
-      setError('Error during login');
+      setError('Network error, please try again later');
     } finally {
       setLoading(false);
     }
   };
+  
   
 
   return (
