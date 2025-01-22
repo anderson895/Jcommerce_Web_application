@@ -1,14 +1,13 @@
-// src/components/LoginForm.jsx
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-function LoginForm({ handleLogin }) {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();  // Get navigate function from useNavigate hook
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,21 +22,24 @@ function LoginForm({ handleLogin }) {
         body: JSON.stringify({ email, password }),
       });
 
+      // Check if the response is OK
       if (!response.ok) {
+        // Throw error with status code for handling in catch block
         const errorData = await response.json();
         throw new Error(`${response.status}: ${errorData.detail || 'Error during login'}`);
       }
 
+      // Parse the response JSON when login is successful
       const data = await response.json();
 
       if (data.message === "Login successful") {
-        // Persist authentication state
-        handleLogin();
-        navigate('/dashboard');  // Redirect to the dashboard
+        // Redirect to the Dashboard after successful login
+        navigate('/dashboard');
       } else {
         setError(data.detail || 'Login failed');
       }
     } catch (err) {
+      // Handle different error scenarios based on the error message
       if (err.message.includes('401')) {
         setError('Invalid password');
       } else if (err.message.includes('404')) {
@@ -55,16 +57,16 @@ function LoginForm({ handleLogin }) {
       {/* Loading Screen */}
       {loading && (
         <div id="loadingScreen" className="fixed inset-0 bg-white flex justify-center items-center z-50 opacity-100 transition-opacity duration-1000">
-          <div className="absolute inset-0 bg-white opacity-75"></div>
+          <div className="absolute inset-0 bg-white opacity-75"></div> {/* White background for the entire card */}
           <svg className="h-20 w-20 stroke-gray-500 animate-spin" viewBox="0 0 256 256">
-            <line x1="128" y1="32" x2="128" y2="64" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
-            <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
-            <line x1="224" y1="128" x2="192" y2="128" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
-            <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
-            <line x1="128" y1="224" x2="128" y2="192" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
-            <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
-            <line x1="32" y1="128" x2="64" y2="128" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
-            <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+            <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+            <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
           </svg>
           <span className="text-4xl font-medium text-gray-500">Loading...</span>
         </div>
