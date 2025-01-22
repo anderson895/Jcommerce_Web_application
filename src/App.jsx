@@ -1,20 +1,15 @@
 // src/App.jsx
 import React from 'react';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/LoginForm'; // Import LoginForm
 
 function App() {
-  const handleSubmit = (email, password) => {
-    // Handle login logic here
-    console.log('Email:', email, 'Password:', password);
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <div className="flex items-center justify-center mb-6">
           <h2 className="text-2xl font-semibold">Login</h2>
         </div>
-        <LoginForm onSubmit={handleSubmit} />
+        <LoginForm /> {/* No need to pass onSubmit anymore */}
         <div className="mt-4 text-center">
           <a href="#" className="text-sm text-blue-500 hover:underline">Forgot Password?</a>
         </div>
@@ -23,4 +18,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; // Ensure you are exporting the component as default

@@ -1,14 +1,42 @@
 // src/components/LoginForm.jsx
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa'; // Import the icons
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 
-function LoginForm({ onSubmit }) {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // For handling login errors
+  const navigate = useNavigate(); // Hook to navigate to dashboard
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(email, password);
+    
+    // API request to login
+    try {
+      const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login successful, redirect to dashboard
+        navigate('/dashboard');
+      } else {
+        // Handle login failure (e.g., invalid credentials)
+        setError(data.detail || 'Login failed');
+      }
+    } catch (err) {
+      setError('Error during login');
+    }
   };
 
   return (
@@ -47,6 +75,9 @@ function LoginForm({ onSubmit }) {
         </div>
       </div>
 
+      {/* Error message */}
+      {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
       <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
         Login
       </button>
@@ -55,3 +86,4 @@ function LoginForm({ onSubmit }) {
 }
 
 export default LoginForm;
+
