@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import './css/loadingSpinner.css';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -75,14 +74,15 @@ function LoginForm() {
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
       {loading ? (
-        <div className="flex justify-center items-center mb-4">
-          <div className="loader"></div>
-        </div>
-      ) : (
-        <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-          Login
-        </button>
-      )}
+          <div className="flex justify-center items-center mb-4">
+            <div className="w-8 h-8 border-4 border-t-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            Login
+          </button>
+        )}
+
     </form>
   );
 }
