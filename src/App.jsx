@@ -18,4 +18,4 @@ function App() {
   );
 }
 
-export default App; // Ensure you are exporting the component as default
+export default App;
