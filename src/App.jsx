@@ -1,39 +1,31 @@
 // src/App.jsx
-import React, { useEffect, useState } from 'react';
-import LoginForm from './components/LoginForm'; // Import LoginForm
-import Dashboard from './components/Dashboard'; // Import Dashboard
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';  // Import Route and Routes only
+import LoginForm from './components/LoginForm';  // Import LoginForm
+import Dashboard from './components/Dashboard';  // Import Dashboard
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Check if the user is authenticated on page load
-    const userIsAuthenticated = localStorage.getItem('isAuthenticated');
-    if (userIsAuthenticated) {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  const handleLogin = () => {
-    // Set authentication flag to true and store it in localStorage
-    localStorage.setItem('isAuthenticated', 'true');
-    setIsAuthenticated(true);
-  };
-
-  const handleLogout = () => {
-    // Remove authentication flag from localStorage
-    localStorage.removeItem('isAuthenticated');
-    setIsAuthenticated(false);
-  };
-
   return (
-    <div>
-      {isAuthenticated ? (
-        <Dashboard handleLogout={handleLogout} />
-      ) : (
-        <LoginForm handleLogin={handleLogin} />
-      )}
-    </div>
+    <Routes>  {/* Use Routes to handle different paths */}
+      <Route 
+        path="/" 
+        element={
+          <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+              <div className="flex items-center justify-center mb-6">
+                <h2 className="text-2xl font-semibold">Login</h2>
+              </div>
+              <LoginForm /> {/* Pass LoginForm as the component */}
+              <div className="mt-4 text-center">
+                <a href="#" className="text-sm text-blue-500 hover:underline">Forgot Password?</a>
+              </div>
+            </div>
+          </div>
+        } 
+      /> {/* Default route for Login */}
+      
+      <Route path="/dashboard" element={<Dashboard />} />  {/* Dashboard route */}
+    </Routes>
   );
 }
 
