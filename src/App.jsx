@@ -1,6 +1,6 @@
 // src/App.jsx
 import React from 'react';
-import LoginForm from './LoginForm';
+import LoginForm from './components/LoginForm';
 
 function App() {
   const handleSubmit = (email, password) => {

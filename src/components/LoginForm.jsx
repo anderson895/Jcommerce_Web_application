@@ -1,4 +1,4 @@
-// src/LoginForm.jsx
+// src/components/LoginForm.jsx
 import React, { useState } from 'react';
 
 function LoginForm({ onSubmit }) {
