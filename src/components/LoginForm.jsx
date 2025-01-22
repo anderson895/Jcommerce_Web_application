@@ -19,15 +19,12 @@ function LoginForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
-
-      if (response.ok) {
+  
+      if (response.ok && data.message === "Login successful") {
         // Login successful, redirect to dashboard
         navigate('/dashboard');
       } else {
@@ -38,6 +35,7 @@ function LoginForm() {
       setError('Error during login');
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
