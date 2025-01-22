@@ -9,12 +9,6 @@ function Sidebar() {
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 transition-opacity ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        onClick={toggleSidebar}
-      />
-      
       {/* Sidebar */}
       <div
         className={`bg-gray-800 text-white w-64 space-y-6 p-5 fixed top-0 left-0 h-full transition-transform transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
@@ -41,7 +35,7 @@ function Sidebar() {
       {/* Hamburger Menu for Mobile */}
       <button
         onClick={toggleSidebar}
-        className="lg:hidden text-2xl text-gray-800 absolute top-4 left-4"
+        className="lg:hidden text-2xl text-gray-800 absolute top-4 left-4 z-50"
       >
         <FaBars />
       </button>
