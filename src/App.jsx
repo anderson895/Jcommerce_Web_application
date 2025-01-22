@@ -1,6 +1,8 @@
 // src/App.jsx
 import React from 'react';
 import LoginForm from './components/LoginForm'; // Import LoginForm
+import Dashboard from './components/Dashboard'; // Import Dashboard
+
 
 function App() {
   return (
@@ -18,4 +20,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; // Ensure you are exporting the component as default
