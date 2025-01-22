@@ -16,35 +16,39 @@ function LoginForm() {
     try {
       const response = await fetch('https://j-commerce-fast-api.vercel.app/logins/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ email, password }),
       });
   
       if (!response.ok) {
-        const data = await response.json();
-        if (response.status === 401) {
-          setError('Invalid password');
-        } else if (response.status === 404) {
-          setError('User not found or inactive admin account');
-        } else {
-          setError(data.detail || 'Login failed');
-        }
-        return; // Stop execution if response is not OK
+        // Kung hindi OK ang response, throw error
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
   
       const data = await response.json();
+  
       if (data.message === "Login successful") {
         navigate('/dashboard');
       } else {
         setError(data.detail || 'Login failed');
       }
     } catch (err) {
-      setError('Network error, please try again later');
+      // I-handle ang error at magbigay ng tamang mensahe
+      if (err.message.includes('401')) {
+        setError('Invalid password');
+      } else if (err.message.includes('404')) {
+        setError('User not found or inactive admin account');
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }
   };
   
+
   
 
   return (
